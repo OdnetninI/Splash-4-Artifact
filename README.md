@@ -1,5 +1,6 @@
 Splash-4: A Modern Benchmark Suite with Lock-Free Constructs - Artifact
 =======================================================================
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7086144.svg)](https://doi.org/10.5281/zenodo.7086144)
 
 Artifact used to evaluate the Splash-4 benchmark presented in the following paper:
 >*Eduardo José Gómez-Hernández, Juan M. Cebrián, Alberto Ros, Stefanos Kaxiras*
