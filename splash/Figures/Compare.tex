@@ -1,0 +1,129 @@
+\documentclass[preview]{standalone}
+ 
+ \usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{pgfplotstable}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{patterns}
+
+\usepackage[a4paper,margin=0.5in]{geometry}
+
+\begin{document}
+ 
+\begin{figure*}
+    \centering
+    \pgfplotstableread[col sep = space, header=true]{../Splash3-Atomics-Barriers-Splash4.tex.data}\datatable
+    \begin{tikzpicture}
+    \pgfplotsset{
+        every axis plot post/.style={/pgf/number format/fixed},
+        every axis/.style={ 
+        height=12em,
+        width=\textwidth,
+        ybar,
+        bar width=3.5pt,
+        symbolic x coords={
+Barnes,
+Cholesky,
+FFT,
+FMM,
+LUC,
+LUNC,
+Ocean,
+OceanNP,
+Radiosity,
+Radix,
+Raytrace,
+Volrend,
+WaterNS,
+WaterSP,
+SPACE,
+GeoMean
+        },
+        xtick={
+Barnes,
+Cholesky,
+FFT,
+FMM,
+LUC,
+LUNC,
+Ocean,
+OceanNP,
+Radiosity,
+Radix,
+Raytrace,
+Volrend,
+WaterNS,
+WaterSP,
+GeoMean
+        },
+        xtick=data,
+        ylabel={\small Norm. Execution Time},
+        every axis y label/.style={at={(ticklabel cs:0.5)},rotate=90,anchor=near ticklabel},
+        unbounded coords=jump,
+        xlabel=,
+        %ybar=4pt,
+        %bar width=6pt,
+        xticklabels={
+        Barnes,
+        Cholesky,
+        FFT,
+        FMM,
+        LU-Cont,
+        LU-Non,
+        Ocean-Cont,
+        Ocean-Non,
+        Radiosity,
+        Radix,
+        Raytrace,
+        Volrend,
+        Water-NS,
+        Water-SP,
+        Geomean
+        },
+        xtick pos=bottom,ytick pos=left,
+        y tick label style={font=\tiny},
+        x tick label style={font=\tiny},
+        axis lines*=left,
+        axis y line = left,
+        ytick={0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1},
+        ymin=0.0, ymax=1.0,
+        enlarge x limits=0.04,
+        %restrict y to domain*=0:1.15,
+        ymajorgrids,
+        extra x tick style={
+            tick label style={yshift=-2mm, rotate=-90}
+        },
+        %
+        clip=false,
+        legend cell align={left},
+        legend pos=south west,
+        legend style={nodes={scale=0.7, transform shape},,at={(0.5,-0.25)},anchor=north},
+        legend columns=6,
+        legend image code/.code={\draw [#1] (0cm,0cm) rectangle (0.2cm,0.2cm); }
+        }
+    }
+    %\addplot coordinates {(36,1051.6) (72,875.0) (144,1099.3) (288,1114.6) (576,1054.3)};
+    \begin{axis}
+    \path
+        (axis cs:SPACE, -0.4)
+        -- coordinate (tmpmin)
+        (axis cs:SPACE, -0.4)
+        (axis cs:SPACE, 1.2)
+        -- coordinate (tmpmax)
+        (axis cs:SPACE, 1.2)
+      ;
+     \draw[dashed] (tmpmin) -- (tmpmax);
+    \addplot+[] table[x=a,y=b] {\datatable};
+    \addplot+[] table[x=a,y=c] {\datatable};
+    \addplot+[] table[x=a,y=d] {\datatable};
+    \addplot+[] table[x=a,y=e] {\datatable};
+    \legend{\,Splash-3,\,Barrier,\,Atomics,\,Splash-4,};
+    \end{axis}
+    \end{tikzpicture}
+    
+%    \caption{Ratio of time spent on critical-section primitives (additionally, for lock-unlock, time spent inside the critical section itself). Each bar represents the original version, the straightforward C11 atomics, and the lock-free version respectively.}
+   \caption{Execution time when upgrading Splash-3 \emph{barriers}, \emph{atomics} and both -\emph{Splash-4}- (64-threads on AMD Epyc 7702P)}
+    \label{fig:s3-bar-atom-s4-times64}
+\end{figure*}
+
+\end{document}

@@ -1,0 +1,143 @@
+\documentclass[preview]{standalone}
+ 
+ \usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{pgfplotstable}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{patterns}
+
+\usepackage[a4paper,margin=0.5in]{geometry}
+
+\begin{document}
+ 
+\begin{figure*}
+    \centering
+    \pgfplotstableread[col sep = space, header=true]{../Splash3-Splash4.tex.data}\datatable
+    \begin{tikzpicture}
+    \begin{axis}
+    [
+        every axis plot post/.style={/pgf/number format/fixed},
+        height=12em,
+        ymode=log,
+        width=\textwidth,
+        symbolic x coords={
+        B1,B2,B4,B8,B16,B32,B64,SPACE1,
+        C1,C2,C4,C8,C16,C32,C64,SPACE2,
+        F1,F2,F4,F8,F16,F32,F64,SPACE3,
+        M1,M2,M4,M8,M16,M32,M64,SPACE4,
+        L1,L2,L4,L8,L16,L32,L64,SPACE5,
+        U1,U2,U4,U8,U16,U32,U64,SPACE6,
+        O1,O2,O4,O8,O16,O32,O64,SPACE7,
+        P1,P2,P4,P8,P16,P32,P64,SPACE8,
+        R1,R2,R4,R8,R16,R32,R64,SPACE9,
+        X1,X2,X4,X8,X16,X32,X64,SPACEA,
+        Y1,Y2,Y4,Y8,Y16,Y32,Y64,SPACEB,
+        V1,V2,V4,V8,V16,V32,V64,SPACEC,
+        W1,W2,W4,W8,W16,W32,W64,SPACED,
+        S1,S2,S4,S8,S16,S32,S64,SPACEE,
+        },
+        extra x ticks={
+        B8,
+        C8,
+        F8,
+        M8,
+        L8,
+        U8,
+        O8,
+        P8,
+        R8,
+        X8,
+        Y8,
+        V8,
+        W8,
+        S8,
+        },
+        extra x tick labels={
+        Barnes,
+        Cholesky,
+        FFT,
+        FMM,
+        LU-Cont,
+        LU-Non,
+        Ocean-Cont,
+        Ocean-Non,
+        Radiosity,
+        Radix,
+        Raytrace,
+        Volrend,
+        Water-NS,
+        Water-SP,
+        },
+        xticklabels={
+        1,2,4,8,16,32,64,,
+        1,2,4,8,16,32,64,,
+        1,2,4,8,16,32,64,,
+        1,2,4,8,16,32,64,,
+        1,2,4,8,16,32,64,,
+        1,2,4,8,16,32,64,,
+        1,2,4,8,16,32,64,,
+        1,2,4,8,16,32,64,,
+        1,2,4,8,16,32,64,,
+        1,2,4,8,16,32,64,,
+        1,2,4,8,16,32,64,,
+        1,2,4,8,16,32,64,,
+        1,2,4,8,16,32,64,,
+        1,2,4,8,16,32,64,
+        },
+        xtick={
+        B1,B2,B4,B8,B16,B32,B64,,
+        C1,C2,C4,C8,C16,C32,C64,,
+        F1,F2,F4,F8,F16,F32,F64,,
+        M1,M2,M4,M8,M16,M32,M64,,
+        L1,L2,L4,L8,L16,L32,L64,,
+        U1,U2,U4,U8,U16,U32,U64,,
+        O1,O2,O4,O8,O16,O32,O64,,
+        P1,P2,P4,P8,P16,P32,P64,,
+        R1,R2,R4,R8,R16,R32,R64,,
+        X1,X2,X4,X8,X16,X32,X64,,
+        Y1,Y2,Y4,Y8,Y16,Y32,Y64,,
+        V1,V2,V4,V8,V16,V32,V64,,
+        W1,W2,W4,W8,W16,W32,W64,,
+        S1,S2,S4,S8,S16,S32,S64,
+        },
+        ylabel={\small Scalability},
+        every axis y label/.style={at={(ticklabel cs:0.5)},rotate=90,anchor=near ticklabel},
+        unbounded coords=jump,
+        xlabel=,
+        %ybar=0pt,
+        %bar width=6pt,
+        xtick pos=bottom,ytick pos=left,
+        y tick label style={font=\tiny},
+        x tick label style={font=\tiny, rotate=90},
+        axis lines*=left,
+        axis y line = left,
+        ytick={0,1,2,4,8,16,32,64},
+        ymin=1, ymax=16,
+        log basis y={2},
+        enlarge x limits=0.02,
+        %restrict y to domain*=0:1.15,
+        ymajorgrids,
+        extra x tick style={
+            tick label style={yshift=-2mm, rotate=-90}
+        },
+        clip=true,
+        %
+        legend cell align={left},
+        legend pos=south west,
+        legend style={nodes={scale=0.7, transform shape},,at={(0.5,-0.25)},anchor=north},
+        legend columns=5,
+        %legend image code/.code={\draw [#1] (0cm,0cm) rectangle (0.1cm,0.1cm); }
+    ]
+    \addplot+[mark=o, error bars/.cd, y dir=both, y explicit, error bar style={opacity=0.3}]
+    table [x=b, y=o, y error=p] {\datatable};
+    \addplot+[mark=x, error bars/.cd, y dir=both, y explicit, error bar style={opacity=0.3}]
+    table [x=b, y=a, y error=c] {\datatable};
+    \legend{\,Splash-3,\,Splash-4};
+    \end{axis}
+    \end{tikzpicture}
+    
+    \caption{Splash-3 vs Splash-4 Scalability on AMD Epyc 7702P}
+    \label{fig:real-3-4}
+\end{figure*}
+
+\end{document}
