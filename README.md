@@ -12,6 +12,8 @@ Artifact used to evaluate the Splash-4 benchmark presented in the following pape
 
 This repository provides an artifact to reproduce the Splash-3 and Splash-4
 experiments. In particular it reproduces figures 1 and 3 from *Splash-4: A Modern Benchmark Suite with Lock-Free Constructs*
+A 64 core machine is expected to be able to reproduce all the results. Please check the Notes section if the machine has less
+than 64 cores.
 
 About 1 to 4 hours is expected to setup and run all the experiments, using an AMD Rome 7702P.
 
